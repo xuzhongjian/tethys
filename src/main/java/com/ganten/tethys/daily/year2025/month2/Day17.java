@@ -1,4 +1,4 @@
-package com.ganten.tethys.year2025.month2;
+package com.ganten.tethys.daily.year2025.month2;
 
 import java.util.HashMap;
 import java.util.HashSet;
