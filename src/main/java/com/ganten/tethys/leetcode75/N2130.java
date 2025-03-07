@@ -21,6 +21,13 @@ public class N2130 {
             ListNode startNext = cur.next;
             result[i] += startNext.val;
             result[size - 1 - i] += slowNext.val;
+            slow = slow.next;
+            cur = cur.next;
         }
+        int max = Integer.MIN_VALUE;
+        for (int i : result) {
+            max = Math.max(max, i);
+        }
+        return max;
     }
 }
