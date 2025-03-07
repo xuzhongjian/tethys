@@ -3,7 +3,7 @@ package com.ganten.tethys.daily.year2025.month3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class D7 {
+public class Day7 {
     public int[] closestPrimes(int left, int right) {
         List<Integer> list = new ArrayList<>();
         for (int i = left; i <= right; i++) {
@@ -44,7 +44,7 @@ public class D7 {
     }
 
     public static void main(String[] args) {
-        D7 d7 = new D7();
-        d7.closestPrimes(19, 31);
+        Day7 day7 = new Day7();
+        day7.closestPrimes(19, 31);
     }
 }
