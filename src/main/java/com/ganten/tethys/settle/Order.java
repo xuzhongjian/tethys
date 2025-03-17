@@ -1,4 +1,4 @@
-package com.ganten.tethys.test;
+package com.ganten.tethys.settle;
 
 public class Order {
     private double gainAmount, payAmount;
