@@ -2,7 +2,7 @@ package com.ganten.tethys.leetcode75;
 
 import java.util.HashSet;
 
-// 2336
+// N 2336
 public class SmallestInfiniteSet {
     private final HashSet<Integer> set;
 
