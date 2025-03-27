@@ -1,52 +1,72 @@
 package com.ganten.tethys.daily.year2025.month3;
 
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-/**
- * 2033
- */
 public class Day27 {
-    public int minOperations(int[][] grid, int k) {
-        int[] rebuildGrid = this.rebuildGrid(grid, k);
-        if (rebuildGrid == null) {
+
+    public static void main(String[] args) {
+        Day27 day27 = new Day27();
+        System.out.println(day27.minimumIndex(Stream.of(4, 2, 5, 2, 9, 2, 2, 2, 2).collect(Collectors.toList())));
+    }
+
+    public int minimumIndex(List<Integer> nums) {
+        Integer maxRepeat = findMax(nums);
+        if (maxRepeat == null) {
             return -1;
         }
-        Arrays.sort(rebuildGrid);
-        // choose the mid-index
-        int midIndex = rebuildGrid.length / 2;
-        int midValue = rebuildGrid[midIndex];
+        int[] leftCount = this.leftCount(nums, maxRepeat);
+        int[] rightCount = this.rightCount(nums, maxRepeat);
+        for (int i = 0; i < nums.size() - 1; i++) {
+            double leftRate = 1.0 * leftCount[i] / (i + 1);
+            double rightRate = 1.0 * rightCount[i + 1] / (nums.size() - i - 1);
+            if (leftRate > 0.5 && rightRate > 0.5) return i;
+        }
+        return -1;
+    }
+
+    private Integer findMax(List<Integer> nums) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        for (Integer num : nums) {
+            if (stack.isEmpty()) {
+                stack.push(num);
+            } else if (stack.peek().equals(num)) {
+                stack.push(num);
+            } else {
+                stack.pop();
+            }
+        }
+        if (stack.isEmpty()) {
+            return null;
+        }
+        return stack.pop();
+    }
+
+    private int[] leftCount(List<Integer> nums, int maxRepeat) {
+        int[] leftCount = new int[nums.size()];
         int count = 0;
-        for (int i : rebuildGrid) {
-            int cur = midValue - i;
-            count += (cur >= 0 ? cur : -cur);
+        for (int i = 0; i < nums.size(); i++) {
+            Integer num = nums.get(i);
+            if (num == maxRepeat) {
+                count++;
+            }
+            leftCount[i] = count;
         }
-        return count;
+        return leftCount;
     }
 
-    private int[] rebuildGrid(int[][] grid, int k) {
-        int min = this.findMin(grid);
-        int index = 0;
-        int[] result = new int[grid.length * grid[0].length];
-        for (int[] ints : grid) {
-            for (int anInt : ints) {
-                int m = anInt - min;
-                if (m % k != 0) {
-                    return null;
-                }
-                result[index] = m / k;
-                index++;
+    private int[] rightCount(List<Integer> nums, int maxRepeat) {
+        int[] rightCount = new int[nums.size()];
+        int count = 0;
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            Integer num = nums.get(i);
+            if (num == maxRepeat) {
+                count++;
             }
+            rightCount[i] = count;
         }
-        return result;
-    }
-
-    private int findMin(int[][] grid) {
-        int min = Integer.MAX_VALUE;
-        for (int[] ints : grid) {
-            for (int anInt : ints) {
-                min = Math.min(min, anInt);
-            }
-        }
-        return min;
+        return rightCount;
     }
 }
